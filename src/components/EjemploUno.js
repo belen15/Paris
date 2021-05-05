@@ -17,8 +17,11 @@ const EjemploUno = () => {
 
  
 
-  //kdjhzkjdkzjslzjks
-  //Ref= 1766382
+  //Aca se define la funcion borrar, que es de tipo callback. el parametro es el index definido antes
+  //Primero definimos una nueva const (EntradasNoEliminadas), que es igual a la constante inicial Entradas
+  //Despues eliminamos el ultimo elemento de la nueva contante
+  //Por ultimo, se llama al setter de Entradas, reemplazandola por la const  EntradasNoEliminadas sin el ultimo elemento(el eliminado)
+  //
   const borrar = useCallback(index => {
     const EntradasNoEliminadas = [...Entradas] 
     EntradasNoEliminadas.pop(index)
@@ -58,7 +61,7 @@ const EjemploUno = () => {
 
             <select className="form-select gender" aria-label="Default select example"
               {...register("gender")}>
-              <option value="seleccione" disabled hidden>Seleccione una opcion</option>
+              <option value="seleccione" hidden>Seleccione una opcion</option>
               <option value="female">femenino</option>
               <option value="male">masculino</option>
               <option value="other">otro</option>
@@ -79,6 +82,7 @@ const EjemploUno = () => {
                   {item.gender}
                   
                 </span>
+                {/*OnClick llama a la funcion borrar que tiene como parametro el index  */}
                 <span className="borrar" onClick={() => borrar(index)}><b>Borrar</b></span>
               </li>
             )}
