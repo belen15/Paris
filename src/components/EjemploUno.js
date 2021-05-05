@@ -1,11 +1,11 @@
-import React, {Fragment , useState} from 'react';
+import React, {Fragment , useState, useCallback} from 'react';
 import { useForm } from 'react-hook-form'
 
 const EjemploUno = () => {
   const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
   const [Entradas, setEntradas] = useState([])
 
-  const onSubmit = (data , e) => {
+  const onSubmit = useCallback((data , e) => {
     console.log(data);
     setEntradas([
       ...Entradas,
@@ -13,14 +13,22 @@ const EjemploUno = () => {
     ])
     e.target.reset();
     reset();
-  }
-  
+  },[Entradas])
 
+ 
+
+  //kdjhzkjdkzjslzjks
+  //Ref= 1766382
+  const borrar = useCallback(index => {
+    const EntradasNoEliminadas = [...Entradas] 
+    EntradasNoEliminadas.pop(index)
+    setEntradas(EntradasNoEliminadas)
+  }, [Entradas])
  
   return(
 
     <Fragment>
-      <div class="row m-0 p-2">
+      <div className="row m-0 p-2">
         <div className="col-12 my-5 p-4  formulario">
           <h2 className="my-2 titulo">Formulario</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -28,30 +36,29 @@ const EjemploUno = () => {
               name="nombre"
               placeholder="Ingrese Nombre"
               className="form-control my-2 "
-              autocomplete="off"
+              autoComplete="off"
               {...register("nombre", { 
                 required: {value: true,message:'campo obligatorio'}, 
                 minLength:{value:3, message:'Minimo 3 caracteres'},
               })}
             ></input>
-            <span className="text-danger text-small d-block mb-2">{errors.titulo?.message}</span>
-            
+            <span className="text-danger text-small d-block mb-2">{errors.nombre?.message}</span>
             
             <input
               name="Descripcion"
               placeholder="Ingrese Apellido"
               className="form-control my-2"
-              autocomplete="off"
-              {...register("descripcion", {
+              autoComplete="off"
+              {...register("apellido", {
                 required: { value: true, message: 'campo obligatorio' },
                 minLength: { value: 3, message: 'Minimo 3 caracteres' },
               })}
             />
-            <span className="text-danger text-small d-block mb-2">{errors.descripcion?.message}</span>
+            <span className="text-danger text-small d-block mb-2">{errors.apellido?.message}</span>
 
-            <select class="form-select" aria-label="Default select example"
+            <select className="form-select gender" aria-label="Default select example"
               {...register("gender")}>
-              <option selected>Seleccione una opcion</option>
+              <option value="seleccione" disabled hidden>Seleccione una opcion</option>
               <option value="female">femenino</option>
               <option value="male">masculino</option>
               <option value="other">otro</option>
@@ -62,8 +69,18 @@ const EjemploUno = () => {
             
           </form>
           <ul className="mt-3">
-            {Entradas.map(item => 
-              <li key={item.titulo}>{item.titulo} - {item.descripcion} - {item.gender}</li>
+            {Entradas.map((item, index) => 
+              <li key={index}>
+                <span>
+                  {item.nombre}
+                  -
+                  {item.apellido}
+                  -
+                  {item.gender}
+                  
+                </span>
+                <span className="borrar" onClick={() => borrar(index)}><b>Borrar</b></span>
+              </li>
             )}
             
           </ul>

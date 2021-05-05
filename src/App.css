@@ -26,3 +26,14 @@ body{
   color: rgb(247, 242, 242);
 
 }
+
+.borrar{
+  cursor: pointer;
+  font-style: italic;
+  margin-left: 20px;
+  float: right;
+}
+
+.gender{
+  color: rgb(107, 106, 106)
+}
